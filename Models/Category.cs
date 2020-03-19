@@ -2,10 +2,32 @@
 
 namespace FreakyFashionTerminal.Models
 {
-    class Category
+    class Category : IConsoleListable
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        private string _name;
+
+        public string Name
+        {
+            get { return _name; }
+
+            set
+            {
+                _name = value;
+
+                UrlSlug = _name
+                    .Replace(' ', '-')
+                    .ToLower() + $"-{Guid.NewGuid()}";
+            }
+        }
+
         public Uri ImageUri { get; set; }
+        public string UrlSlug { get; private set; }
+
+        public string ToListItem()
+        {
+            return Id.ToString().PadRight(10) + Name;
+        }
     }
 }
